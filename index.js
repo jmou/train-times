@@ -13,13 +13,31 @@ async function init() {
 
 // Route to get next train times, where stations are stored on req.body.stations
 //TODO: Test next train times with front end http request
-app.get('/next-train-times/:line/:station/:direction', async(req, res) => {
+app.get('/next-train-times', async(req, res) => {
   try {
     let line = req.params.line;
     let station = req.params.station;
     let direction = req.params.direction;
-    let times = await trainUtils.getNextTrainTimes(line, station, direction);
-    res.send(times);
+    // TODO2 hardcode rest of lines
+    // TODO4 pull into another file
+    // TODO3 reduce number of API calls
+    // TODO4 mapping station ids to names
+    let TRAIN_STOPS = [
+      {line:"2",station:"233",direction:"N"},
+      {line:"2",station:"233",direction:"S"},
+      {line:"3",station:"233",direction:"N"},
+      {line:"3",station:"233",direction:"S"},
+      {line:"Q",station:"R30",direction:"N"},
+      {line:"Q",station:"R30",direction:"S"},
+    ]
+    let results = [];
+    for (let i = 0; i < TRAIN_STOPS.length; i++) {
+      let train_stop = TRAIN_STOPS[i];
+      let times = await trainUtils.getNextTrainTimes(train_stop.line, train_stop.station, train_stop.direction);
+      let result = times.map(function(t) {return {time: t, line:train_stop.line, station:train_stop.station, direction:train_stop.direction};});
+      results.push(...result);
+    }
+    res.send(results);
   }
   catch(e) {
     console.log(e);

@@ -1,10 +1,10 @@
 @font-face {
-    font-family: VT;
-    src: url(VT323-Regular.ttf) format("truetype");
+    font-family: Scoreboard;
+    src: url(scoreboard.ttf) format("truetype");
 }
 
 body {
-  font-family: VT, sans-serif;
+  font-family: Scoreboard;
   color: white;
   background: black;
 }
@@ -16,7 +16,6 @@ table {
 
 tr {
   display: table-row;
-  /*background: #bff6fc;*/
 }
 
 .bubble {

@@ -5,24 +5,36 @@
 
 body {
   font-family: Scoreboard;
-  color: white;
-  background: black;
+  color: rgb(255,147,41);
+  font-size: 25pt;
+  font-weight: bold;
+    margin: 0 5%;
 }
 
 table {
-  font-size: large;
-  /*border-collapse: collapse;*/
+  background: black;
+    border-collapse: collapse;
+    width: 100%;
 }
 
-tr {
-  display: table-row;
+td {
+    padding: 1ex 1.5ex 1ex 2ex;
+    border: 0 solid white;
+    border-width: 10px 0;
+    background: black;
 }
 
-.bubble {
-  border-collapse: separate;
-  margin-right: 1em;
-  padding: 1em;
-  display: inline-block;
+tr > td:first-child {
+    width: 4em;
+}
+
+tr > td:first-child + td {
+    width: 1.5em;
+}
+
+/* last block */
+tr > td + td + td + td {
+    color: black;
 }
 
 .line-123 {

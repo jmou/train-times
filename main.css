@@ -16,16 +16,17 @@ body {
 }
 
 table {
-  background: black;
+  background: transparent;
     border-collapse: collapse;
     width: 100%;
 }
 
 td {
     padding: .7ex .5ex .7ex 1.5ex;
-    border: 0 solid white;
+    border: 0 solid transparent;
     border-width: 10px 0;
     background: black;
+    background-clip: padding-box;
 }
 
 tr > td:first-child {

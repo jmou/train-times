@@ -9,6 +9,10 @@ body {
   font-size: 29pt;
   font-weight: bold;
     margin: 0 5%;
+  background-image: url("Rome_subway_graffiti.jpg");
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;              /* optional, center the image */
 }
 
 table {

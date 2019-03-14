@@ -6,7 +6,7 @@
 body {
   font-family: Scoreboard;
   color: rgb(255,147,41);
-  font-size: 25pt;
+  font-size: 29pt;
   font-weight: bold;
     margin: 0 5%;
 }
@@ -18,31 +18,20 @@ table {
 }
 
 td {
-    padding: 1ex 1.5ex 1ex 2ex;
+    padding: .7ex .5ex .7ex 1.5ex;
     border: 0 solid white;
     border-width: 10px 0;
     background: black;
 }
 
 tr > td:first-child {
-    width: 4em;
+    width: 2em;
 }
 
 tr > td:first-child + td {
     width: 1.5em;
 }
 
-/* last block */
-tr > td + td + td + td {
-    color: black;
-}
-
-.line-123 {
-  background: #ef3f42;
-  border-radius: 50%;
-  text-align: center;
-  margin: 1em;
-  width: 1.5em;
-  height: 1.5em;
-  color: white;
+img {
+    width: 1.8em;
 }

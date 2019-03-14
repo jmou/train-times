@@ -1,46 +1,26 @@
 body {
-  font-family: Georgia, Times, serif;
-  color: purple;
+  font-family: sans-serif;
+  color: white;
+  background: black;
 }
 
 table {
   font-size: large;
-  border-collapse: collapse;
+  /*border-collapse: collapse;*/
 }
 
 tr {
   display: table-row;
-  background: #bff6fc;
+  /*background: #bff6fc;*/
 }
 
 .bubble {
   border-collapse: separate;
-  border:solid 5px red;
-  border-radius: 16px;
-  -moz-border-radius:16px;
-  /*margin-bottom:10px;*/
   margin-right: 1em;
   padding: 1em;
   display: inline-block;
 }
 
-
-table.transit-data tr {
-  display: block;
-  border-collapse: separate;
-  border:solid 5px red;
-  border-radius: 16px;
-  -moz-border-radius:16px;
-  margin: 1em;
-  padding: 0.25em;
-}
-table.transit-data tr td {
-  border-style: hidden;
-  border-width: 5em;
-  border-radius: 1em;
-  -moz-border-radius:1em;
-}
-
 .line-123 {
   background: #ef3f42;
   border-radius: 50%;
@@ -49,15 +29,4 @@ table.transit-data tr td {
   width: 1.5em;
   height: 1.5em;
   color: white;
-}
-
-.line-123 {
-  background: #ef3f42;
-  border-radius: 50%;
-  text-align: center;
-  margin: 1em;
-  width: 1.5em;
-  height: 1.5em;
-  color: white;
-  /*box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;*/
 }

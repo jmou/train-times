@@ -45,19 +45,20 @@ echo "PORT=3000" >> .env
 npm start
 ```
 
-### Example endpoint:
-##### Find the next train times for a given stop  
-Say we're looking for the next A train times going south at Jay St. MetroTech. You can either go to ```http://localhost:3000/stops``` and look for your stop, or check out the stops.csv. At Jay St., the stop id is _A41_.
-
-Next, pass the train line, stop id, and direction into the API:  
-```localhost:3000/next-train-times/A/A41/S```
-
-You should receive an array with the upcoming train arrival times.  
+### Endpoints
+Both train and bus JSON objects are formatted as below:
 ```
-[8,14,22,32,45,55,65,75]
+[{
+	time: 8,
+	line: "B25",
+	station: "FULTON ST/JAY ST",
+	direction: "W"
+ },
+...]
 ```
-##### Get a JSON object with select information for all train stops  
-```localhost:3000/stops```
-##### Get a JSON object with feed ids for all train lines  
-```localhost:3000/line-to-feed-ids```
-The returned object has keys that are train lines, ex `C`, and values that are an MTA feed ID, ex `26`
+We made it easy for you so it returns all train/bus data relevant to RC.
+You can access them through the following endpoints:
+##### Get an array of JSON objects with :train: data
+```localhost:3000/next-train-times```
+##### Get an array of JSON objects with :bus: data
+```localhost:3000/next-bus-times```

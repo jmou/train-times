@@ -23,6 +23,7 @@ function buildFeedData() {
   return lineToFeedId;
 }
 
+
 async function getNextBusTimes(busLine, stopId) {
   let requestSettings = {
     method: 'GET',
@@ -62,19 +63,54 @@ async function getNextBusTimes(busLine, stopId) {
   return deltaTimes
 }
 
-async function getNextTrainTimes(trainLine, stopId, direction) {
-  let errorMessage = validateInputs(trainLine, stopId, direction);
-  let feedId = lineToFeedId[trainLine];
-  if(errorMessage.length !== 0) {
-    return errorMessage;
+
+async function getNextTrainTimes() {
+
+  let TRAIN_STOPS = [
+    {line:"2",stop_id:"233"},
+    {line:"3",stop_id:"233"},
+    {line:"Q",stop_id:"R30"},
+    {line:"B",stop_id:"R30"},
+    {line:"D",stop_id:"R30"},
+    {line:"N",stop_id:"R29"},
+    {line:"R",stop_id:"R29"},
+    {line:"W",stop_id:"R29"},
+    {line:"A",stop_id:"A41"},
+    {line:"C",stop_id:"A41"},
+    {line:"F",stop_id:"A41"},
+    {line:"G",stop_id:"A42"},
+    {line:"4",stop_id:"232"},
+    {line:"5",stop_id:"232"}
+  ]
+
+  let STATION_INFO = {
+    "233": {station:"Hoyt St", walk_time:1},
+    "R30": {station:"Dekalb Ave", walk_time:6},
+    "R29": {station:"Jay St - MetroTech", walk_time:1},
+    "A41": {station:"Jay St - MetroTech", walk_time:4},
+    "A42": {station:"Hoyt - Schermerhorn", walk_time:5},
+    "232": {station:"Borough Hall", walk_time:4},
   }
+  
 
-  let body = await makeRequest(trainLine)
-  let feed = GtfsRealtimeBindings.FeedMessage.decode(body);
-  let arrivalTimes = parseArrivalTimes(feed, trainLine, stopId, direction);
-  let deltaTimes = formatArrivalTimes(arrivalTimes);
+  results = [];
+  for (let i = 0; i < TRAIN_STOPS.length; i++) {
+    let train_stop = TRAIN_STOPS[i];
+    let trainLine = train_stop.line;
+    let stopId = train_stop.stop_id;
 
-  return deltaTimes;
+    let body = await makeRequest(trainLine);
+    let feed = GtfsRealtimeBindings.FeedMessage.decode(body);
+
+    for (const direction of ["N","S"]) {
+      let arrivalTimes = parseArrivalTimes(feed, trainLine, stopId, direction);
+      let deltaTimes = formatArrivalTimes(arrivalTimes);
+      let result = deltaTimes.map(function(t) {return {time: t, line:trainLine, station:STATION_INFO[stopId].station, direction:direction};});
+      results.push(...result);
+    };
+  };
+
+  return results;
 }
 
 function parseArrivalTimes(feed, trainLine, stopId, direction) {

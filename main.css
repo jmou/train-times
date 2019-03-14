@@ -33,5 +33,6 @@ tr > td:first-child + td {
 }
 
 img {
+    margin-top: .2ex;
     width: 1.8em;
 }

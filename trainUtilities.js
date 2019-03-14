@@ -24,47 +24,85 @@ function buildFeedData() {
 }
 
 
-async function getNextBusTimes(busLine, stopId) {
-  let requestSettings = {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json'
-    },
-    url: `http://bustime.mta.info/api/siri/stop-monitoring.json?key=${process.env.MTA_BUS_KEY}&MonitoringRef=${stopId}&LineRef=MTA NYCT_${busLine}`,
-    encoding: null
+async function getNextBusTimes() {
+
+  // TODO add B54 line?
+  // TODO add walk_time to each station
+  let BUS_STOPS = [
+    {'line': 'B25', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+    {'line': 'B26', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+    {'line': 'B38', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+    {'line': 'B52', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+    {'line': 'B25', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
+    {'line': 'B26', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
+    {'line': 'B38', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
+    {'line': 'B52', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
+    {'line': 'B57', 'station': 'JAY ST/FULTON ST', 'direction': 'S', 'stop_id': '305211'},
+    {'line': 'B57', 'station': 'JAY ST/FULTON  ST', 'direction': 'NE', 'stop_id': '307907'}
+  ]
+
+  let results = [];
+
+  for (let i = 0; i < BUS_STOPS.length; i++) {
+    let bus_stop = BUS_STOPS[i];
+    let stopId = bus_stop["stop_id"];
+    let busLine = bus_stop["line"]
+
+    let requestSettings = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json'
+      },
+      url: `http://bustime.mta.info/api/siri/stop-monitoring.json?key=${process.env.MTA_BUS_KEY}&MonitoringRef=${stopId}&LineRef=MTA NYCT_${busLine}`,
+      encoding: null
+    };
+
+    const data = await new Promise(function(resolve, reject) {
+      request(requestSettings, (error, response, body) => {
+        if (error) {
+          return reject(error)
+        }
+
+        if (response.statusCode != 200) {
+          return reject(new Error('unexpected status code ' + response.statusCode))
+        }
+
+        if (!/json/.test(response.headers['content-type'])) {
+          return reject(new Error('unexpected content type'))
+        }
+
+        resolve(JSON.parse(body.toString()));
+      });
+    });
+
+    const departTimes = data.Siri.ServiceDelivery.StopMonitoringDelivery.map((s) => {
+      return s.MonitoredStopVisit.map((m) => {
+        return m.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime
+      })
+    }).reduce((a, b) => [...a, ...b], []).filter(Boolean)
+
+    let deltaTimes = formatArrivalTimes(departTimes);
+    let result = deltaTimes.map(function(t) {return {time: t, line:busLine, station:bus_stop.station, direction:bus_stop.direction};});
+    results.push(...result);
   };
 
-  const data = await new Promise(function(resolve, reject) {
-    request(requestSettings, (error, response, body) => {
-      if (error) {
-        return reject(error)
-      }
 
-      if (response.statusCode != 200) {
-        return reject(new Error('unexpected status code ' + response.statusCode))
-      }
 
-      if (!/json/.test(response.headers['content-type'])) {
-        return reject(new Error('unexpected content type'))
-      }
-
-      resolve(JSON.parse(body.toString()));
-    });
-  });
-
-  const departTimes = data.Siri.ServiceDelivery.StopMonitoringDelivery.map((s) => {
-    return s.MonitoredStopVisit.map((m) => {
-      return m.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime
-    })
-  }).reduce((a, b) => [...a, ...b], []).filter(Boolean)
-
-  let deltaTimes = formatArrivalTimes(departTimes);
-
-  return deltaTimes
+  return results
 }
 
 
 async function getNextTrainTimes() {
+
+  // TODO (optional) reduce number of API calls with feedID
+  // TODO figure out rate limit?
+  // TODO error handling
+  // TODO filter the results to contain relevant ones only
+  // TODO sort the results
+  // TODO add "updated at ..." time for frontend?
+  // TODO check where the direction "N"/"S" is coming from; 
+  //      optionally, edit the returned-json-parsing to get the actual bound name
+
 
   let TRAIN_STOPS = [
     {line:"2",stop_id:"233"},
@@ -93,7 +131,7 @@ async function getNextTrainTimes() {
   }
   
 
-  results = [];
+  let results = [];
   for (let i = 0; i < TRAIN_STOPS.length; i++) {
     let train_stop = TRAIN_STOPS[i];
     let trainLine = train_stop.line;

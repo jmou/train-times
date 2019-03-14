@@ -27,13 +27,20 @@ npm install
 touch .env
 echo "MTA_KEY=MY_MTA_KEY" >> .env
 ```
+5. If you also want bus data, register for an MTA BusTime Developer API Key on the [MTA's Google form](https://docs.google.com/forms/d/e/1FAIpQLSfGUZA6h4eHd2-ImaK5Q_I5Gb7C3UEP5vYDALyGd7r3h08YKg/viewform?hl=en)
 
-5. Add the port you want to use to develop locally
+6. After 5, add your API key to the script
+```
+touch .env
+echo "MTA_BUS_KEY=MY_MTA_BUS_KEY" >> .env
+```
+
+7. Add the port you want to use to develop locally
 ```
 echo "PORT=3000" >> .env
 ```
 
-6. Run the API
+8. Run the API
 ```
 npm start
 ```
@@ -49,7 +56,7 @@ You should receive an array with the upcoming train arrival times.
 ```
 [8,14,22,32,45,55,65,75]
 ```
-##### Get a JSON object with select information for all stops  
+##### Get a JSON object with select information for all train stops  
 ```localhost:3000/stops```
 ##### Get a JSON object with feed ids for all train lines  
 ```localhost:3000/line-to-feed-ids```

@@ -15,14 +15,6 @@ async function init() {
 //TODO: Test next train times with front end http request
 app.get('/next-train-times', async(req, res) => {
   try {
-
-    // TODO (optional) reduce number of API calls with feedID
-    // TODO figure out rate limit?
-    // TODO error handling
-    // TODO filter the results to contain relevant ones only
-    // TODO sort the results
-
-
     let results = await trainUtils.getNextTrainTimes();
     res.send(results);
   }
@@ -32,11 +24,10 @@ app.get('/next-train-times', async(req, res) => {
   }
 });
 
-app.get('/next-bus-times/:line/:stop', async(req, res) => {
+app.get('/next-bus-times', async(req, res) => {
   try {
-    let {line, stop} = req.params;
-    let times = await trainUtils.getNextBusTimes(line, stop);
-    res.send(times);
+    let results = await trainUtils.getNextBusTimes();
+    res.send(results);
   }
   catch(e) {
     console.log(e);

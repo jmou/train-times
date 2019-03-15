@@ -1,0 +1,43 @@
+@font-face {
+    font-family: Scoreboard;
+    src: url(scoreboard.ttf) format("truetype");
+}
+
+body {
+  font-family: Scoreboard;
+  color: rgb(255,147,41);
+  font-size: 29pt;
+  font-weight: bold;
+    margin: 0 5%;
+  background-image: url("subway_img/Rome_subway_graffiti.jpg");
+  background-size:     cover;                      /* <------ */
+  background-repeat:   no-repeat;
+  background-position: center center;              /* optional, center the image */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td {
+    padding: .6ex .5ex;
+    border: 0 solid transparent;
+    border-width: 10px 0;
+    background: black;
+    background-clip: padding-box;
+}
+
+tr > td:first-child {
+    padding-left: 1.3ex;
+    width: 3.5em;
+}
+
+tr > td:first-child + td {
+    width: 1.5em;
+}
+
+img {
+    margin-top: .2ex;
+    width: 1.8em;
+}

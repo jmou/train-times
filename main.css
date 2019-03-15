@@ -16,13 +16,12 @@ body {
 }
 
 table {
-  background: transparent;
     border-collapse: collapse;
     width: 100%;
 }
 
 td {
-    padding: .7ex .5ex .7ex 1.5ex;
+    padding: .6ex .5ex;
     border: 0 solid transparent;
     border-width: 10px 0;
     background: black;
@@ -30,7 +29,8 @@ td {
 }
 
 tr > td:first-child {
-    width: 2em;
+    padding-left: 1.3ex;
+    width: 3.5em;
 }
 
 tr > td:first-child + td {

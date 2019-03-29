@@ -11,6 +11,11 @@ async function init() {
  lineToFeedId = trainUtils.buildFeedData();
 }
 
+app.use('/static', express.static('fe/build/static'));
+app.get('/', (req, res) => {
+    res.sendFile('fe/build/index.html');
+});
+
 // Route to get next train times, where stations are stored on req.body.stations
 //TODO: Test next train times with front end http request
 app.get('/next-transit-times', async(req, res) => {

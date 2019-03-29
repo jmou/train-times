@@ -1,0 +1,42 @@
+body {
+	font-family: Scoreboard;
+	color: rgb(255,147,41);
+	font-size: 29pt;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	background-size:     cover;                      /* <------ */
+	background-repeat:   no-repeat;
+	background-position: center center;              /* optional, center the image */
+}
+
+@font-face {
+	font-family: Scoreboard;
+	src: url(scoreboard.ttf) format("truetype");
+}
+
+#background {
+	position: absolute;
+	z-index: -1;
+	min-height: 100%;
+	width: 100%
+}
+
+.arrivals-list {
+	width: 100%;
+	display: grid;
+}
+
+.arrival-info {	
+	width: 75%;
+	display: grid;
+	grid-template-columns: .35fr .15fr 1fr;
+	grid-template-rows: 1fr;
+	background: black;
+}
+
+img.line {
+	margin-top: .2ex;
+	width: 1.8em;
+}
+

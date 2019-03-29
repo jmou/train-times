@@ -11,22 +11,16 @@ async function init() {
  lineToFeedId = trainUtils.buildFeedData();
 }
 
-// Route to get next train times, where stations are stored on req.body.stations
-//TODO: Test next train times with front end http request
-app.get('/next-train-times', async(req, res) => {
-  try {
-    let results = await trainUtils.getNextTrainTimes();
-    res.send(results);
-  }
-  catch(e) {
-    console.log(e);
-    res.send('Error');
-  }
+app.use('/static', express.static('fe/build/static'));
+app.get('/', (req, res) => {
+    res.sendFile('fe/build/index.html');
 });
 
-app.get('/next-bus-times', async(req, res) => {
+// Route to get next train times, where stations are stored on req.body.stations
+//TODO: Test next train times with front end http request
+app.get('/next-transit-times', async(req, res) => {
   try {
-    let results = await trainUtils.getNextBusTimes();
+    let results = await trainUtils.getNextTransitTimes();
     res.send(results);
   }
   catch(e) {

@@ -38,7 +38,7 @@ async function getNextBusTimes() {
     {'line': 'B38', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
     {'line': 'B52', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
     {'line': 'B57', 'station': 'JAY ST/FULTON ST', 'direction': 'S', 'stop_id': '305211'},
-    {'line': 'B57', 'station': 'JAY ST/FULTON  ST', 'direction': 'NE', 'stop_id': '307907'}
+    {'line': 'B57', 'station': 'JAY ST/FULTON ST', 'direction': 'NE', 'stop_id': '307907'}
   ]
 
   let results = [];
@@ -150,6 +150,13 @@ async function getNextTrainTimes() {
 
   return results;
 }
+
+
+async function getNextTransitTimes() {
+  [bustime, traintime] = await Promise.all([getNextBusTimes(), getNextTrainTimes()]);
+  return [...bustime, ...traintime];
+}
+
 
 function parseArrivalTimes(feed, trainLine, stopId, direction) {
   let arrivalTimes = [];
@@ -268,6 +275,7 @@ function buildFeedIds() {
 module.exports = {
   getNextTrainTimes: getNextTrainTimes,
   getNextBusTimes: getNextBusTimes,
+  getNextTransitTimes: getNextTransitTimes,
   parseArrivalTimes: parseArrivalTimes,
   makeRequest: makeRequest,
   validateInputs: validateInputs,

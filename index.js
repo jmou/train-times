@@ -13,20 +13,9 @@ async function init() {
 
 // Route to get next train times, where stations are stored on req.body.stations
 //TODO: Test next train times with front end http request
-app.get('/next-train-times', async(req, res) => {
+app.get('/next-transit-times', async(req, res) => {
   try {
-    let results = await trainUtils.getNextTrainTimes();
-    res.send(results);
-  }
-  catch(e) {
-    console.log(e);
-    res.send('Error');
-  }
-});
-
-app.get('/next-bus-times', async(req, res) => {
-  try {
-    let results = await trainUtils.getNextBusTimes();
+    let results = await trainUtils.getNextTransitTimes();
     res.send(results);
   }
   catch(e) {

@@ -29,6 +29,12 @@ const ListHeader = () => (
 );
 
 class Arrivals extends React.Component {
+	constructor(props) {
+		super(props);	
+
+
+	}
+
 	state = {
 		arrivals:[
 			{time: 4, line: "F", station: "Hoyt", direction: 'N'},
@@ -36,6 +42,14 @@ class Arrivals extends React.Component {
 			{time: 12, line: "Q", station: "Jay", direction: 'N'},
 		]
 	};
+	
+	componentDidMount() {
+		/*
+		fetch('https://api.mydomain.com')
+			.then(response => response.json())
+			.then(data => this.setState({ arrivals }));
+		*/
+	}
 
 	render() {
 		return(

@@ -27,15 +27,19 @@ body {
 	display: grid;
 }
 
+.arrival-time {
+	align-items: center;
+}
+
 .arrival-info {	
 	width: 75%;
 	display: grid;
-	grid-template-columns: .35fr .15fr 1fr;
+	grid-template-columns: .25fr .15fr 1fr;
 	grid-template-rows: 1fr;
 	background: black;
 }
 
-img.line {
+img.line-icon {
 	margin-top: .2ex;
 	width: 1.8em;
 }

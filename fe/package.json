@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "lodash.groupby": "^4.6.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.23",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "superagent": "^5.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

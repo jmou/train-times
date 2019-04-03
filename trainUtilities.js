@@ -81,8 +81,8 @@ async function getNextBusTimes() {
       })
     }).reduce((a, b) => [...a, ...b], []).filter(Boolean)
 
-    let deltaTimes = formatArrivalTimes(departTimes);
-    let result = deltaTimes.map(function(t) {return {time: t, line:busLine, station:bus_stop.station, direction:bus_stop.direction};});
+    //let deltaTimes = formatArrivalTimes(departTimes);
+    let result = departTimes.map(function(t) {return {time: t, line:busLine, station:bus_stop.station, direction:bus_stop.direction};});
     results.push(...result);
   };
 
@@ -100,7 +100,7 @@ async function getNextTrainTimes() {
   // TODO filter the results to contain relevant ones only
   // TODO sort the results
   // TODO add "updated at ..." time for frontend?
-  // TODO check where the direction "N"/"S" is coming from; 
+  // TODO check where the direction "N"/"S" is coming from;
   //      optionally, edit the returned-json-parsing to get the actual bound name
 
 
@@ -129,7 +129,7 @@ async function getNextTrainTimes() {
     "A42": {station:"Hoyt - Schermerhorn", walk_time:5},
     "232": {station:"Borough Hall", walk_time:4},
   }
-  
+
 
   let results = [];
   for (let i = 0; i < TRAIN_STOPS.length; i++) {
@@ -137,13 +137,12 @@ async function getNextTrainTimes() {
     let trainLine = train_stop.line;
     let stopId = train_stop.stop_id;
 
-    let body = await makeRequest(trainLine);
-    let feed = GtfsRealtimeBindings.FeedMessage.decode(body);
+    let feed = await retryMakeRequest(trainLine);
 
     for (const direction of ["N","S"]) {
       let arrivalTimes = parseArrivalTimes(feed, trainLine, stopId, direction);
-      let deltaTimes = formatArrivalTimes(arrivalTimes);
-      let result = deltaTimes.map(function(t) {return {time: t, line:trainLine, station:STATION_INFO[stopId].station, direction:direction};});
+      //let deltaTimes = formatArrivalTimes(arrivalTimes);
+      let result = arrivalTimes.map(function(t) {return {time: new Date(t), line:trainLine, station:STATION_INFO[stopId].station, direction:direction};});
       results.push(...result);
     };
   };
@@ -151,6 +150,22 @@ async function getNextTrainTimes() {
   return results;
 }
 
+const ATTEMPTS = 5
+
+async function retryMakeRequest (trainLine, attempts = 0) {
+  let body = await makeRequest(trainLine);
+
+  try {
+    return GtfsRealtimeBindings.FeedMessage.decode(body);
+  } catch (error) {
+    if (attempts < ATTEMPTS) {
+      console.log(`retrying request for ${trainLine}`)
+      return retryMakeRequest(trainLine, attempts + 1)
+    } else {
+      throw new Error(`failed to parse successful response after ${ATTEMPTS} attempts`)
+    }
+  }
+}
 
 async function getNextTransitTimes() {
   [bustime, traintime] = await Promise.all([getNextBusTimes(), getNextTrainTimes()]);
@@ -185,9 +200,14 @@ function makeRequest(trainLine) {
     encoding: null
   };
 
+  console.log(`GET ${requestSettings.url}`)
+
   return new Promise(function(resolve, reject) {
     request(requestSettings, (error, response, body) => {
-      if (!error && response.statusCode == 200) {
+      if (!/gtfs/.test(response.headers['content-disposition'])) {
+        console.error('rejecting headers', response.headers)
+        console.error('body for rejected headers', body)
+      } else if (!error && response.statusCode == 200) {
         resolve(body);
       } else {
         reject(error);
@@ -215,7 +235,7 @@ function formatArrivalTimes(arrivalTimes) {
   arrivalTimes.forEach((time) => {
     let arrival = new Date(time);
     let deltaTime = Math.floor((arrival - Date.now())/60000);
-    console.log((arrival - Date.now())/60000)
+    //console.log((arrival - Date.now())/60000)
     if(deltaTime > 0) deltaTimes.push(deltaTime);
   });
 

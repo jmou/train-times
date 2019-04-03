@@ -27,16 +27,22 @@ body {
 	display: grid;
 }
 
+.arrival-direction {
+	align-items: center;
+}
+
 .arrival-time {
 	align-items: center;
 }
 
-.arrival-info {	
-	width: 75%;
+.arrival-info {
+	width: 100%;
 	display: grid;
-	grid-template-columns: .25fr .15fr 1fr;
+  align-items: center;
+	grid-template-columns: .25fr .1fr .15fr 1fr;
 	grid-template-rows: 1fr;
 	background: black;
+  padding: 10px 0;
 }
 
 img.line-icon {

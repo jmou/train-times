@@ -143,7 +143,7 @@ let walkTimes = {
 
 function findBestArrival (arrivals) {
   return arrivals.reduce((x, y) => {
-    return +x.time < +y.time ? x : y
+    return +new Date(x.time) < +new Date(y.time) ? x : y
   })
 }
 

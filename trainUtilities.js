@@ -29,16 +29,16 @@ async function getNextBusTimes() {
   // TODO add B54 line?
   // TODO add walk_time to each station
   let BUS_STOPS = [
-    {'line': 'B25', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
-    {'line': 'B26', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
-    {'line': 'B38', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
-    {'line': 'B52', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
-    {'line': 'B25', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
-    {'line': 'B26', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
-    {'line': 'B38', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
-    {'line': 'B52', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
-    {'line': 'B57', 'station': 'JAY ST/FULTON ST', 'direction': 'S', 'stop_id': '305211'},
-    {'line': 'B57', 'station': 'JAY ST/FULTON ST', 'direction': 'NE', 'stop_id': '307907'}
+//    {'line': 'B25', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+//    {'line': 'B26', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+//    {'line': 'B38', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+//    {'line': 'B52', 'station': 'FULTON ST/JAY ST', 'direction': 'W', 'stop_id': '302433'},
+    {'line': 'B25', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491', 'walk_time': 1},
+//    {'line': 'B26', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
+    {'line': 'B38', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491', 'walk_time':1}
+//    {'line': 'B52', 'station': 'FULTON ST/HOYT ST', 'direction': 'E', 'stop_id': '307491'},
+//    {'line': 'B57', 'station': 'JAY ST/FULTON ST', 'direction': 'S', 'stop_id': '305211'},
+//    {'line': 'B57', 'station': 'JAY ST/FULTON ST', 'direction': 'NE', 'stop_id': '307907'}
   ]
 
   let results = [];
@@ -106,19 +106,19 @@ async function getNextTrainTimes() {
 
   let TRAIN_STOPS = [
     {line:"2",stop_id:"233"},
-    {line:"3",stop_id:"233"},
+//    {line:"3",stop_id:"233"},
     {line:"Q",stop_id:"R30"},
-    {line:"B",stop_id:"R30"},
-    {line:"D",stop_id:"R30"},
-    {line:"N",stop_id:"R29"},
+//    {line:"B",stop_id:"R30"},
+//    {line:"D",stop_id:"R30"},
+    {line:"N",stop_id:"R30"},
     {line:"R",stop_id:"R29"},
-    {line:"W",stop_id:"R29"},
+//    {line:"W",stop_id:"R29"},
     {line:"A",stop_id:"A41"},
     {line:"C",stop_id:"A41"},
     {line:"F",stop_id:"A41"},
-    {line:"G",stop_id:"A42"},
-    {line:"4",stop_id:"232"},
-    {line:"5",stop_id:"232"}
+    {line:"G",stop_id:"A42"}
+//    {line:"4",stop_id:"232"},
+//    {line:"5",stop_id:"232"}
   ]
 
   let STATION_INFO = {

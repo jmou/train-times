@@ -63,11 +63,12 @@ class App extends React.Component {
         if (/json/.test(resp.headers.get('content-type'))) {
           return resp
         } else {
-          console.error(`unknown content type "${resp.headers.get('content-type')}"`)
+          throw new Error(`unknown content type "${resp.headers.get('content-type')}"`)
         }
       })
       .then((resp) => resp.json())
       .then((arrivals) => this.setState({arrivals}))
+      .catch((err) => console.error(err))
   }
 
 	render() {
